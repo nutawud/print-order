@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="th">
 
@@ -14,7 +15,15 @@
         ระบบพิมพ์ใบปะหน้า A4 - 4 รูปต่อหน้า
     </title>
 
+
+    <!-- Tailwind -->
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- jsPDF -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 
     <style>
@@ -43,19 +52,7 @@
 
 
         /* =========================================
-           A4
-        ========================================= */
-
-        @page {
-
-            size: A4 portrait;
-
-            margin: 0;
-        }
-
-
-        /* =========================================
-           พื้นที่ Preview
+           PRINT AREA
         ========================================= */
 
         #printArea {
@@ -75,9 +72,7 @@
 
 
         /* =========================================
-           Wrapper ของแต่ละหน้า
-           
-           ใช้สำหรับย่อ Preview
+           PAGE WRAPPER
         ========================================= */
 
         .page-wrapper {
@@ -93,9 +88,9 @@
 
 
         /* =========================================
-           หน้า A4 จริง
+           A4
 
-           ขนาดจริง 210 x 297 mm
+           210 × 297 mm
         ========================================= */
 
         .page-container {
@@ -105,10 +100,8 @@
             height: 297mm;
 
             min-width: 210mm;
-            min-height: 297mm;
 
-            max-width: none;
-            max-height: none;
+            min-height: 297mm;
 
             margin: 0;
 
@@ -129,7 +122,8 @@
             overflow: hidden;
 
             box-shadow:
-                0 0 12px rgba(0, 0, 0, 0.15);
+                0 0 12px
+                rgba(0, 0, 0, 0.15);
 
             transform-origin:
                 top center;
@@ -139,7 +133,7 @@
 
 
         /* =========================================
-           กล่องรูป
+           IMAGE BOX
         ========================================= */
 
         .image-box {
@@ -173,7 +167,7 @@
 
 
         /* =========================================
-           รูป
+           IMAGE
         ========================================= */
 
         .image-box img {
@@ -193,7 +187,7 @@
 
 
         /* =========================================
-           ปุ่มลบ
+           DELETE BUTTON
         ========================================= */
 
         .delete-btn {
@@ -233,6 +227,8 @@
             box-shadow:
                 0 2px 6px
                 rgba(0, 0, 0, 0.25);
+
+            transition: 0.2s;
         }
 
 
@@ -245,7 +241,7 @@
 
 
         /* =========================================
-           ช่องว่าง
+           EMPTY BOX
         ========================================= */
 
         .empty-box {
@@ -255,7 +251,7 @@
 
 
         /* =========================================
-           หน้าจอเล็ก
+           DESKTOP PREVIEW
         ========================================= */
 
         @media screen and (max-width: 900px) {
@@ -275,10 +271,18 @@
 
 
         /* =========================================
-           มือถือ
+           MOBILE
         ========================================= */
 
         @media screen and (max-width: 600px) {
+
+            body {
+
+                padding-top: 10px !important;
+
+                padding-bottom: 10px !important;
+            }
+
 
             #printArea {
 
@@ -314,193 +318,12 @@
         }
 
 
-        /* =========================================
-           PRINT
-        ========================================= */
-
-        @media print {
-
-            html,
-            body {
-
-                width: 210mm;
-
-                margin: 0 !important;
-
-                padding: 0 !important;
-
-                background: white !important;
-
-                overflow: visible !important;
-            }
-
-
-            /* ซ่อน Control */
-
-            .no-print {
-
-                display: none !important;
-            }
-
-
-            /* ซ่อนปุ่มลบ */
-
-            .delete-btn {
-
-                display: none !important;
-            }
-
-
-            /* Print Area */
-
-            #printArea {
-
-                width: 210mm !important;
-
-                margin: 0 !important;
-
-                padding: 0 !important;
-
-                display: block !important;
-
-                overflow: visible !important;
-            }
-
-
-            /* Wrapper */
-
-            .page-wrapper {
-
-                width: 210mm !important;
-
-                height: 297mm !important;
-
-                display: block !important;
-
-                margin: 0 !important;
-
-                padding: 0 !important;
-
-                overflow: visible !important;
-            }
-
-
-            /* =====================================
-               A4 จริง
-            ===================================== */
-
-            .page-container {
-
-                width: 210mm !important;
-
-                height: 297mm !important;
-
-                min-width: 210mm !important;
-
-                min-height: 297mm !important;
-
-                max-width: none !important;
-
-                max-height: none !important;
-
-                margin: 0 !important;
-
-                padding: 0 !important;
-
-                transform: none !important;
-
-                display: grid !important;
-
-                grid-template-columns:
-                    1fr 1fr !important;
-
-                grid-template-rows:
-                    1fr 1fr !important;
-
-                gap: 0 !important;
-
-                box-shadow: none !important;
-
-                overflow: hidden !important;
-
-                page-break-after: always !important;
-
-                break-after: page !important;
-
-                page-break-inside: avoid !important;
-
-                break-inside: avoid !important;
-            }
-
-
-            .page-wrapper:last-child
-            .page-container {
-
-                page-break-after:
-                    avoid !important;
-
-                break-after:
-                    avoid !important;
-            }
-
-
-            /* =====================================
-               กล่องรูป
-            ===================================== */
-
-            .image-box {
-
-                width: 100% !important;
-
-                height: 100% !important;
-
-                min-width: 0 !important;
-
-                min-height: 0 !important;
-
-                margin: 0 !important;
-
-                padding: 0 !important;
-
-                border: none !important;
-
-                overflow: hidden !important;
-
-                display: flex !important;
-
-                align-items: center !important;
-
-                justify-content: center !important;
-            }
-
-
-            /* =====================================
-               รูป
-            ===================================== */
-
-            .image-box img {
-
-                width: 100% !important;
-
-                height: 100% !important;
-
-                max-width: 100% !important;
-
-                max-height: 100% !important;
-
-                object-fit: contain !important;
-
-                display: block !important;
-            }
-
-        }
-
     </style>
 
 </head>
 
 
-<body class="bg-gray-100 py-8">
+<body>
 
 
     <!-- =========================================
@@ -516,9 +339,9 @@
             p-6
             rounded-lg
             shadow-md
-            no-print
         "
     >
+
 
         <h2
             class="
@@ -547,9 +370,12 @@
         </p>
 
 
-        <!-- เลือกรูป -->
+        <!-- =====================================
+             FILE INPUT
+        ====================================== -->
 
         <div class="mb-4">
+
 
             <label
                 class="
@@ -597,13 +423,18 @@
         </div>
 
 
-        <!-- ปุ่ม -->
+        <!-- =====================================
+             BUTTONS
+        ====================================== -->
 
         <div class="flex gap-2">
 
+
+            <!-- PDF -->
+
             <button
                 type="button"
-                onclick="window.print()"
+                onclick="createPDF()"
 
                 class="
                     flex-1
@@ -618,10 +449,12 @@
                 "
             >
 
-                🖨️ พิมพ์ทั้งหมด
+                📄 สร้าง PDF / พิมพ์
 
             </button>
 
+
+            <!-- CLEAR -->
 
             <button
                 type="button"
@@ -643,10 +476,13 @@
 
             </button>
 
+
         </div>
 
 
-        <!-- จำนวน -->
+        <!-- =====================================
+             COUNT
+        ====================================== -->
 
         <div
             id="imageCount"
@@ -663,12 +499,13 @@
 
         </div>
 
+
     </div>
 
 
 
     <!-- =========================================
-         PRINT AREA
+         PREVIEW
     ========================================== -->
 
     <div id="printArea">
@@ -681,7 +518,6 @@
                 text-center
                 text-gray-500
                 py-10
-                no-print
             "
         >
 
@@ -702,7 +538,7 @@
 
 
         /* ========================================
-           ตัวแปร
+           VARIABLES
         ======================================== */
 
         let allImages = [];
@@ -728,7 +564,7 @@
 
 
         /* ========================================
-           เลือกรูป
+           FILE SELECT
         ======================================== */
 
         imageInput.addEventListener(
@@ -806,7 +642,7 @@
 
 
                         /*
-                         เพิ่มรูปใหม่
+                         เพิ่มรูป
                         */
 
                         allImages =
@@ -816,7 +652,7 @@
 
 
                         /*
-                         Reset
+                         reset input
                         */
 
                         imageInput.value =
@@ -824,7 +660,7 @@
 
 
                         /*
-                         Render
+                         render
                         */
 
                         renderPages();
@@ -844,7 +680,6 @@
                             "เกิดข้อผิดพลาดในการอ่านรูปภาพ"
                         );
 
-
                     });
 
             }
@@ -853,7 +688,7 @@
 
 
         /* ========================================
-           ลบรูป
+           REMOVE IMAGE
         ======================================== */
 
         function removeImage(index) {
@@ -872,7 +707,7 @@
 
 
         /* ========================================
-           ลบทั้งหมด
+           CLEAR ALL
         ======================================== */
 
         function clearAll() {
@@ -887,11 +722,13 @@
             }
 
 
-            if (
-                !confirm(
+            const confirmDelete =
+                confirm(
                     "ต้องการลบรูปภาพทั้งหมดหรือไม่?"
-                )
-            ) {
+                );
+
+
+            if (!confirmDelete) {
 
                 return;
 
@@ -908,7 +745,7 @@
 
 
         /* ========================================
-           สร้างหน้า
+           RENDER
         ======================================== */
 
         function renderPages() {
@@ -936,7 +773,6 @@
                             text-center
                             text-gray-500
                             py-10
-                            no-print
                         "
                     >
 
@@ -958,7 +794,7 @@
 
 
             /* ====================================
-               ทีละ 4 รูป
+               แบ่งทีละ 4
             ==================================== */
 
             for (
@@ -970,7 +806,6 @@
 
                 /*
                  Wrapper
-                 สำหรับควบคุม Preview
                 */
 
                 const wrapper =
@@ -985,7 +820,7 @@
 
 
                 /*
-                 สร้าง A4
+                 A4
                 */
 
                 const pageDiv =
@@ -1000,7 +835,7 @@
 
 
                 /* =================================
-                   สร้างกล่อง
+                   CREATE BOX
                 ================================= */
 
                 function createBox(
@@ -1023,7 +858,7 @@
 
 
                         /*
-                         รูป
+                         IMAGE
                         */
 
                         const img =
@@ -1049,7 +884,7 @@
 
 
                         /*
-                         ปุ่มลบ
+                         DELETE
                         */
 
                         const deleteBtn =
@@ -1093,10 +928,6 @@
                     else {
 
 
-                        /*
-                         ช่องว่าง
-                        */
-
                         box.classList.add(
                             "empty-box"
                         );
@@ -1111,7 +942,7 @@
 
 
                 /* =================================
-                   4 รูป
+                   4 BOXES
                 ================================= */
 
                 pageDiv.appendChild(
@@ -1148,7 +979,7 @@
 
 
                 /*
-                 A4 ใส่ใน Wrapper
+                 wrapper
                 */
 
                 wrapper.appendChild(
@@ -1157,7 +988,7 @@
 
 
                 /*
-                 เพิ่มเข้า Print Area
+                 print area
                 */
 
                 printArea.appendChild(
@@ -1168,9 +999,556 @@
 
         }
 
+
+
+        /* ========================================
+           CREATE PDF
+        ======================================== */
+
+        async function createPDF() {
+
+
+            /*
+             ตรวจสอบรูป
+            */
+
+            if (
+                allImages.length === 0
+            ) {
+
+                alert(
+                    "กรุณาเลือกรูปภาพก่อน"
+                );
+
+                return;
+
+            }
+
+
+            /*
+             ตรวจสอบ jsPDF
+            */
+
+            if (
+                !window.jspdf ||
+                !window.jspdf.jsPDF
+            ) {
+
+                alert(
+                    "ไม่สามารถโหลดระบบสร้าง PDF ได้"
+                );
+
+                return;
+
+            }
+
+
+            /*
+             ปุ่ม
+            */
+
+            const button =
+                document.querySelector(
+                    'button[onclick="createPDF()"]'
+                );
+
+
+            const originalText =
+                button.innerHTML;
+
+
+            button.disabled =
+                true;
+
+
+            button.innerHTML =
+                "⏳ กำลังสร้าง PDF...";
+
+
+            try {
+
+
+                const {
+                    jsPDF
+                } = window.jspdf;
+
+
+                /*
+                 A4 portrait
+
+                 หน่วยเป็น mm
+                */
+
+                const pdf =
+                    new jsPDF({
+
+                        orientation: "portrait",
+
+                        unit: "mm",
+
+                        format: "a4",
+
+                        compress: true
+
+                    });
+
+
+
+                /*
+                 A4
+
+                 210 × 297 mm
+                */
+
+                const pageWidth =
+                    210;
+
+
+                const pageHeight =
+                    297;
+
+
+                /*
+                 แต่ละช่อง
+
+                 105 × 148.5 mm
+                */
+
+                const boxWidth =
+                    105;
+
+
+                const boxHeight =
+                    148.5;
+
+
+
+                /*
+                 วนทีละ 4 รูป
+                */
+
+                for (
+                    let i = 0;
+                    i < allImages.length;
+                    i += 4
+                ) {
+
+
+                    /*
+                     หน้าแรกไม่ต้อง addPage
+                    */
+
+                    if (i > 0) {
+
+                        pdf.addPage(
+                            "a4",
+                            "portrait"
+                        );
+
+                    }
+
+
+                    /*
+                     4 ตำแหน่ง
+                    */
+
+                    const positions = [
+
+                        {
+                            x: 0,
+                            y: 0
+                        },
+
+                        {
+                            x: 105,
+                            y: 0
+                        },
+
+                        {
+                            x: 0,
+                            y: 148.5
+                        },
+
+                        {
+                            x: 105,
+                            y: 148.5
+                        }
+
+                    ];
+
+
+
+                    /*
+                     เพิ่มรูป
+                    */
+
+                    for (
+                        let j = 0;
+                        j < 4;
+                        j++
+                    ) {
+
+
+                        const index =
+                            i + j;
+
+
+                        /*
+                         ไม่มีรูป
+                         ข้าม
+                        */
+
+                        if (
+                            index >=
+                            allImages.length
+                        ) {
+
+                            continue;
+
+                        }
+
+
+                        const imgSrc =
+                            allImages[index];
+
+
+                        /*
+                         โหลดรูป
+                        */
+
+                        const img =
+                            await loadImage(
+                                imgSrc
+                            );
+
+
+                        /*
+                         ตำแหน่ง
+                        */
+
+                        const pos =
+                            positions[j];
+
+
+                        /*
+                         คำนวณขนาด
+                         ให้รูปอยู่ในช่อง
+                         โดยไม่ตัดรูป
+                        */
+
+                        const imgWidth =
+                            img.naturalWidth;
+
+
+                        const imgHeight =
+                            img.naturalHeight;
+
+
+                        const ratio =
+                            Math.min(
+
+                                boxWidth /
+                                imgWidth,
+
+                                boxHeight /
+                                imgHeight
+
+                            );
+
+
+                        let drawWidth =
+                            imgWidth *
+                            ratio;
+
+
+                        let drawHeight =
+                            imgHeight *
+                            ratio;
+
+
+                        /*
+                         จัดกึ่งกลาง
+                        */
+
+                        const x =
+                            pos.x +
+                            (
+                                boxWidth -
+                                drawWidth
+                            ) / 2;
+
+
+                        const y =
+                            pos.y +
+                            (
+                                boxHeight -
+                                drawHeight
+                            ) / 2;
+
+
+
+                        /*
+                         เพิ่มรูปลง PDF
+                        */
+
+                        pdf.addImage(
+
+                            imgSrc,
+
+                            getImageType(
+                                imgSrc
+                            ),
+
+                            x,
+
+                            y,
+
+                            drawWidth,
+
+                            drawHeight,
+
+                            undefined,
+
+                            "FAST"
+
+                        );
+
+                    }
+
+                }
+
+
+
+                /*
+                 สร้างชื่อไฟล์
+                */
+
+                const fileName =
+                    "ใบปะหน้า_" +
+                    getDateString() +
+                    ".pdf";
+
+
+
+                /*
+                 Blob
+                */
+
+                const pdfBlob =
+                    pdf.output(
+                        "blob"
+                    );
+
+
+                /*
+                 ตรวจสอบ iPhone
+                */
+
+                const isIOS =
+                    /iPad|iPhone|iPod/.test(
+                        navigator.userAgent
+                    ) &&
+                    !window.MSStream;
+
+
+
+                if (isIOS) {
+
+
+                    /*
+                     เปิด PDF ใน Safari
+                    */
+
+                    const blobUrl =
+                        URL.createObjectURL(
+                            pdfBlob
+                        );
+
+
+                    window.location.href =
+                        blobUrl;
+
+
+                }
+
+                else {
+
+
+                    /*
+                     Desktop
+
+                     ดาวน์โหลด PDF
+                    */
+
+                    pdf.save(
+                        fileName
+                    );
+
+                }
+
+
+            }
+
+            catch (error) {
+
+
+                console.error(
+                    error
+                );
+
+
+                alert(
+                    "ไม่สามารถสร้าง PDF ได้"
+                );
+
+
+            }
+
+            finally {
+
+
+                button.disabled =
+                    false;
+
+
+                button.innerHTML =
+                    originalText;
+
+            }
+
+        }
+
+
+
+        /* ========================================
+           LOAD IMAGE
+        ======================================== */
+
+        function loadImage(src) {
+
+
+            return new Promise(
+                (
+                    resolve,
+                    reject
+                ) => {
+
+
+                    const img =
+                        new Image();
+
+
+                    img.onload =
+                        function () {
+
+                            resolve(img);
+
+                        };
+
+
+                    img.onerror =
+                        function () {
+
+                            reject(
+                                new Error(
+                                    "โหลดรูปไม่สำเร็จ"
+                                )
+                            );
+
+                        };
+
+
+                    img.src =
+                        src;
+
+                }
+            );
+
+        }
+
+
+
+        /* ========================================
+           IMAGE TYPE
+        ======================================== */
+
+        function getImageType(src) {
+
+
+            if (
+                src.startsWith(
+                    "data:image/png"
+                )
+            ) {
+
+                return "PNG";
+
+            }
+
+
+            if (
+                src.startsWith(
+                    "data:image/webp"
+                )
+            ) {
+
+                return "WEBP";
+
+            }
+
+
+            return "JPEG";
+
+        }
+
+
+
+        /* ========================================
+           DATE
+           ใช้แค่ตั้งชื่อไฟล์
+           ไม่ได้ใส่ลง PDF
+        ======================================== */
+
+        function getDateString() {
+
+
+            const now =
+                new Date();
+
+
+            const year =
+                now.getFullYear();
+
+
+            const month =
+                String(
+                    now.getMonth() + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const day =
+                String(
+                    now.getDate()
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            return (
+                year +
+                month +
+                day
+            );
+
+        }
+
+
     </script>
 
 </body>
 
 </html>
-
