@@ -1,82 +1,170 @@
 
 <!DOCTYPE html>
 <html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ระบบพิมพ์ใบปะหน้า A4 - 4 รูปต่อหน้า</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ระบบพิมพ์ใบปะหน้า A4 - 4 รูปต่อหน้า
+    </title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
+
     <style>
+
         * {
             box-sizing: border-box;
         }
 
+
         html,
         body {
+
             margin: 0;
             padding: 0;
+
+            width: 100%;
+
+            overflow-x: hidden;
         }
 
-        /* ========================================
-           A4 แนวตั้ง
-        ======================================== */
+
+        body {
+
+            background: #f3f4f6;
+        }
+
+
+        /* =========================================
+           A4
+        ========================================= */
 
         @page {
+
             size: A4 portrait;
+
             margin: 0;
         }
 
 
-        /* ========================================
-           หน้ากระดาษ
-           210 x 297 mm
-           4 รูป = 2 x 2
-        ======================================== */
+        /* =========================================
+           พื้นที่ Preview
+        ========================================= */
+
+        #printArea {
+
+            width: 100%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 20px;
+
+            overflow: hidden;
+        }
+
+
+        /* =========================================
+           Wrapper ของแต่ละหน้า
+           
+           ใช้สำหรับย่อ Preview
+        ========================================= */
+
+        .page-wrapper {
+
+            width: 100%;
+
+            display: flex;
+
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+
+        /* =========================================
+           หน้า A4 จริง
+
+           ขนาดจริง 210 x 297 mm
+        ========================================= */
 
         .page-container {
+
             width: 210mm;
+
             height: 297mm;
 
-            margin: 0 auto 20mm auto;
+            min-width: 210mm;
+            min-height: 297mm;
+
+            max-width: none;
+            max-height: none;
+
+            margin: 0;
+
             padding: 0;
 
             background: white;
 
             display: grid;
 
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
+            grid-template-columns:
+                1fr 1fr;
+
+            grid-template-rows:
+                1fr 1fr;
 
             gap: 0;
 
             overflow: hidden;
 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            box-shadow:
+                0 0 12px rgba(0, 0, 0, 0.15);
+
+            transform-origin:
+                top center;
+
+            flex-shrink: 0;
         }
 
 
-        /* ========================================
+        /* =========================================
            กล่องรูป
-        ======================================== */
+        ========================================= */
 
         .image-box {
+
             width: 100%;
+
             height: 100%;
 
+            min-width: 0;
+
+            min-height: 0;
+
             margin: 0;
+
             padding: 0;
 
             border: none;
-            border-radius: 0;
 
             background: white;
 
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
             overflow: hidden;
@@ -85,94 +173,173 @@
         }
 
 
-        /* ========================================
-           รูปภาพ
-        ======================================== */
+        /* =========================================
+           รูป
+        ========================================= */
 
         .image-box img {
+
             display: block;
 
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
 
-            width: auto;
-            height: auto;
+            height: 100%;
+
+            max-width: 100%;
+
+            max-height: 100%;
 
             object-fit: contain;
         }
 
 
-        /* ========================================
+        /* =========================================
            ปุ่มลบ
-        ======================================== */
+        ========================================= */
 
         .delete-btn {
+
             position: absolute;
 
             top: 10px;
+
             right: 10px;
 
             width: 36px;
-            height: 36px;
 
-            border-radius: 50%;
+            height: 36px;
 
             border: none;
 
+            border-radius: 50%;
+
             background: #dc2626;
+
             color: white;
 
             font-size: 18px;
+
             font-weight: bold;
 
             cursor: pointer;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             z-index: 10;
 
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-
-            transition: 0.2s;
+            box-shadow:
+                0 2px 6px
+                rgba(0, 0, 0, 0.25);
         }
 
+
         .delete-btn:hover {
+
             background: #b91c1c;
 
             transform: scale(1.05);
         }
 
 
-        /* ========================================
-           ช่องว่างกรณีหน้าสุดท้ายมีรูปไม่ครบ 4
-        ======================================== */
+        /* =========================================
+           ช่องว่าง
+        ========================================= */
 
         .empty-box {
+
             visibility: hidden;
         }
 
 
-        /* ========================================
+        /* =========================================
+           หน้าจอเล็ก
+        ========================================= */
+
+        @media screen and (max-width: 900px) {
+
+            .page-container {
+
+                transform:
+                    scale(
+                        calc(
+                            (100vw - 20px)
+                            / 793.7px
+                        )
+                    );
+            }
+
+        }
+
+
+        /* =========================================
+           มือถือ
+        ========================================= */
+
+        @media screen and (max-width: 600px) {
+
+            #printArea {
+
+                gap: 10px;
+            }
+
+
+            .page-container {
+
+                transform:
+                    scale(
+                        calc(
+                            (100vw - 10px)
+                            / 793.7px
+                        )
+                    );
+            }
+
+
+            .delete-btn {
+
+                width: 28px;
+
+                height: 28px;
+
+                top: 5px;
+
+                right: 5px;
+
+                font-size: 14px;
+            }
+
+        }
+
+
+        /* =========================================
            PRINT
-        ======================================== */
+        ========================================= */
 
         @media print {
 
             html,
             body {
+
                 width: 210mm;
+
                 margin: 0 !important;
+
                 padding: 0 !important;
 
                 background: white !important;
+
+                overflow: visible !important;
             }
 
 
-            /* ซ่อนส่วนควบคุม */
+            /* ซ่อน Control */
 
             .no-print {
+
                 display: none !important;
             }
 
@@ -180,34 +347,76 @@
             /* ซ่อนปุ่มลบ */
 
             .delete-btn {
+
                 display: none !important;
             }
 
 
-            /* พื้นที่พิมพ์ */
+            /* Print Area */
 
             #printArea {
-                margin: 0 !important;
-                padding: 0 !important;
 
                 width: 210mm !important;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
+
+                display: block !important;
+
+                overflow: visible !important;
             }
 
 
-            /* A4 */
+            /* Wrapper */
+
+            .page-wrapper {
+
+                width: 210mm !important;
+
+                height: 297mm !important;
+
+                display: block !important;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
+
+                overflow: visible !important;
+            }
+
+
+            /* =====================================
+               A4 จริง
+            ===================================== */
 
             .page-container {
 
                 width: 210mm !important;
+
                 height: 297mm !important;
 
+                min-width: 210mm !important;
+
+                min-height: 297mm !important;
+
+                max-width: none !important;
+
+                max-height: none !important;
+
                 margin: 0 !important;
+
                 padding: 0 !important;
+
+                transform: none !important;
 
                 display: grid !important;
 
-                grid-template-columns: 1fr 1fr !important;
-                grid-template-rows: 1fr 1fr !important;
+                grid-template-columns:
+                    1fr 1fr !important;
+
+                grid-template-rows:
+                    1fr 1fr !important;
 
                 gap: 0 !important;
 
@@ -216,77 +425,126 @@
                 overflow: hidden !important;
 
                 page-break-after: always !important;
+
                 break-after: page !important;
 
                 page-break-inside: avoid !important;
+
                 break-inside: avoid !important;
             }
 
 
-            .page-container:last-child {
-                page-break-after: avoid !important;
-                break-after: avoid !important;
+            .page-wrapper:last-child
+            .page-container {
+
+                page-break-after:
+                    avoid !important;
+
+                break-after:
+                    avoid !important;
             }
 
 
-            /* กล่องรูป */
+            /* =====================================
+               กล่องรูป
+            ===================================== */
 
             .image-box {
 
                 width: 100% !important;
+
                 height: 100% !important;
 
+                min-width: 0 !important;
+
+                min-height: 0 !important;
+
                 margin: 0 !important;
+
                 padding: 0 !important;
 
                 border: none !important;
-                border-radius: 0 !important;
 
                 overflow: hidden !important;
 
                 display: flex !important;
 
                 align-items: center !important;
-                justify-content: center !important;
 
-                background: white !important;
+                justify-content: center !important;
             }
 
 
-            /* รูป */
+            /* =====================================
+               รูป
+            ===================================== */
 
             .image-box img {
 
-                display: block !important;
+                width: 100% !important;
+
+                height: 100% !important;
 
                 max-width: 100% !important;
+
                 max-height: 100% !important;
 
-                width: auto !important;
-                height: auto !important;
-
                 object-fit: contain !important;
+
+                display: block !important;
             }
+
         }
+
     </style>
+
 </head>
 
 
 <body class="bg-gray-100 py-8">
 
 
-    <!-- ==========================================
-         ส่วนควบคุม
-    =========================================== -->
+    <!-- =========================================
+         CONTROL
+    ========================================== -->
 
-    <div class="max-w-xl mx-auto mb-8 bg-white p-6 rounded-lg shadow-md no-print">
+    <div
+        class="
+            max-w-xl
+            mx-auto
+            mb-8
+            bg-white
+            p-6
+            rounded-lg
+            shadow-md
+            no-print
+        "
+    >
 
-        <h2 class="text-xl font-bold mb-2 text-gray-800">
+        <h2
+            class="
+                text-xl
+                font-bold
+                mb-2
+                text-gray-800
+            "
+        >
+
             ระบบพิมพ์ใบปะหน้า
+
         </h2>
 
-        <p class="text-sm text-gray-500 mb-5">
-            A4 แนวตั้ง • 4 รูปต่อหน้า • 2 × 2 • ชิดขอบกระดาษ
+
+        <p
+            class="
+                text-sm
+                text-gray-500
+                mb-5
+            "
+        >
+
+            A4 แนวตั้ง • 4 รูปต่อหน้า • 2 × 2 • ชิดขอบ
+
         </p>
 
 
@@ -294,26 +552,47 @@
 
         <div class="mb-4">
 
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label
+                class="
+                    block
+                    text-sm
+                    font-medium
+                    text-gray-700
+                    mb-2
+                "
+            >
+
                 เลือกรูปใบปะหน้า
+
             </label>
+
 
             <input
                 type="file"
                 id="imageInput"
                 accept="image/*"
                 multiple
-                class="w-full text-sm text-gray-500
-                file:mr-4
-                file:py-2
-                file:px-4
-                file:rounded-md
-                file:border-0
-                file:text-sm
-                file:font-semibold
-                file:bg-blue-50
-                file:text-blue-700
-                hover:file:bg-blue-100"
+
+                class="
+                    w-full
+                    text-sm
+                    text-gray-500
+
+                    file:mr-4
+                    file:py-2
+                    file:px-4
+
+                    file:rounded-md
+                    file:border-0
+
+                    file:text-sm
+                    file:font-semibold
+
+                    file:bg-blue-50
+                    file:text-blue-700
+
+                    hover:file:bg-blue-100
+                "
             >
 
         </div>
@@ -324,49 +603,87 @@
         <div class="flex gap-2">
 
             <button
+                type="button"
                 onclick="window.print()"
-                class="flex-1 bg-blue-600 text-white py-2 px-4
-                rounded-md font-medium
-                hover:bg-blue-700 transition"
+
+                class="
+                    flex-1
+                    bg-blue-600
+                    text-white
+                    py-2
+                    px-4
+                    rounded-md
+                    font-medium
+                    hover:bg-blue-700
+                    transition
+                "
             >
+
                 🖨️ พิมพ์ทั้งหมด
+
             </button>
 
 
             <button
+                type="button"
                 onclick="clearAll()"
-                class="bg-red-600 text-white py-2 px-4
-                rounded-md font-medium
-                hover:bg-red-700 transition"
+
+                class="
+                    bg-red-600
+                    text-white
+                    py-2
+                    px-4
+                    rounded-md
+                    font-medium
+                    hover:bg-red-700
+                    transition
+                "
             >
+
                 🗑️ ลบทั้งหมด
+
             </button>
 
         </div>
 
 
-        <!-- จำนวนรูป -->
+        <!-- จำนวน -->
 
         <div
             id="imageCount"
-            class="mt-3 text-sm text-gray-500 text-center"
+
+            class="
+                mt-3
+                text-sm
+                text-gray-500
+                text-center
+            "
         >
+
             รูปทั้งหมด 0 รูป
+
         </div>
 
     </div>
 
 
 
-    <!-- ==========================================
-         พื้นที่แสดง A4
-    =========================================== -->
+    <!-- =========================================
+         PRINT AREA
+    ========================================== -->
 
     <div id="printArea">
 
+
         <div
             id="empty-message"
-            class="text-center text-gray-500 py-10 no-print"
+
+            class="
+                text-center
+                text-gray-500
+                py-10
+                no-print
+            "
         >
 
             ยังไม่ได้เลือกรูปภาพ
@@ -377,11 +694,13 @@
 
         </div>
 
+
     </div>
 
 
 
     <script>
+
 
         /* ========================================
            ตัวแปร
@@ -391,15 +710,21 @@
 
 
         const imageInput =
-            document.getElementById("imageInput");
+            document.getElementById(
+                "imageInput"
+            );
 
 
         const printArea =
-            document.getElementById("printArea");
+            document.getElementById(
+                "printArea"
+            );
 
 
         const imageCount =
-            document.getElementById("imageCount");
+            document.getElementById(
+                "imageCount"
+            );
 
 
 
@@ -411,53 +736,68 @@
             "change",
             function (event) {
 
+
                 const files =
                     event.target.files;
 
 
-                if (!files || files.length === 0) {
+                if (
+                    !files ||
+                    files.length === 0
+                ) {
+
                     return;
+
                 }
 
 
                 const readers =
-                    Array.from(files).map(file => {
-
-                        return new Promise(
-                            (resolve, reject) => {
-
-                                const reader =
-                                    new FileReader();
+                    Array.from(files).map(
+                        file => {
 
 
-                                reader.onload =
-                                    function (e) {
-
-                                        resolve(
-                                            e.target.result
-                                        );
-
-                                    };
+                            return new Promise(
+                                (
+                                    resolve,
+                                    reject
+                                ) => {
 
 
-                                reader.onerror =
-                                    function () {
-
-                                        reject(
-                                            new Error(
-                                                "ไม่สามารถอ่านไฟล์ได้"
-                                            )
-                                        );
-
-                                    };
+                                    const reader =
+                                        new FileReader();
 
 
-                                reader.readAsDataURL(file);
+                                    reader.onload =
+                                        function (e) {
 
-                            }
-                        );
+                                            resolve(
+                                                e.target.result
+                                            );
 
-                    });
+                                        };
+
+
+                                    reader.onerror =
+                                        function () {
+
+                                            reject(
+                                                new Error(
+                                                    "ไม่สามารถอ่านไฟล์ได้"
+                                                )
+                                            );
+
+                                        };
+
+
+                                    reader.readAsDataURL(
+                                        file
+                                    );
+
+                                }
+                            );
+
+                        }
+                    );
 
 
 
@@ -465,38 +805,46 @@
 
                     .then(images => {
 
+
                         /*
                          เพิ่มรูปใหม่
-                         ต่อจากรูปเดิม
                         */
 
                         allImages =
-                            allImages.concat(images);
+                            allImages.concat(
+                                images
+                            );
 
 
                         /*
-                         Reset input
-                         เพื่อให้เลือกไฟล์เดิมซ้ำได้
+                         Reset
                         */
 
-                        imageInput.value = "";
+                        imageInput.value =
+                            "";
 
 
                         /*
-                         Render ใหม่
+                         Render
                         */
 
                         renderPages();
+
 
                     })
 
                     .catch(error => {
 
-                        console.error(error);
+
+                        console.error(
+                            error
+                        );
+
 
                         alert(
                             "เกิดข้อผิดพลาดในการอ่านรูปภาพ"
                         );
+
 
                     });
 
@@ -511,7 +859,12 @@
 
         function removeImage(index) {
 
-            allImages.splice(index, 1);
+
+            allImages.splice(
+                index,
+                1
+            );
+
 
             renderPages();
 
@@ -525,19 +878,24 @@
 
         function clearAll() {
 
-            if (allImages.length === 0) {
+
+            if (
+                allImages.length === 0
+            ) {
+
                 return;
+
             }
 
 
-            const confirmDelete =
-                confirm(
+            if (
+                !confirm(
                     "ต้องการลบรูปภาพทั้งหมดหรือไม่?"
-                );
+                )
+            ) {
 
-
-            if (!confirmDelete) {
                 return;
+
             }
 
 
@@ -551,36 +909,36 @@
 
 
         /* ========================================
-           สร้างหน้า A4
+           สร้างหน้า
         ======================================== */
 
         function renderPages() {
 
-            /*
-             เคลียร์พื้นที่เดิม
-            */
 
-            printArea.innerHTML = "";
+            printArea.innerHTML =
+                "";
 
-
-            /*
-             อัปเดตจำนวนรูป
-            */
 
             imageCount.innerText =
                 `รูปทั้งหมด ${allImages.length} รูป`;
 
 
-            /*
-             ถ้าไม่มีรูป
-            */
+            /* ไม่มีรูป */
 
-            if (allImages.length === 0) {
+            if (
+                allImages.length === 0
+            ) {
+
 
                 printArea.innerHTML = `
 
                     <div
-                        class="text-center text-gray-500 py-10 no-print"
+                        class="
+                            text-center
+                            text-gray-500
+                            py-10
+                            no-print
+                        "
                     >
 
                         ยังไม่ได้เลือกรูปภาพ
@@ -593,13 +951,15 @@
 
                 `;
 
+
                 return;
+
             }
 
 
 
             /* ====================================
-               แบ่งรูปทีละ 4
+               ทีละ 4 รูป
             ==================================== */
 
             for (
@@ -610,11 +970,29 @@
 
 
                 /*
-                 สร้างหน้า A4
+                 Wrapper
+                 สำหรับควบคุม Preview
+                */
+
+                const wrapper =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                wrapper.className =
+                    "page-wrapper";
+
+
+
+                /*
+                 สร้าง A4
                 */
 
                 const pageDiv =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
                 pageDiv.className =
@@ -622,34 +1000,37 @@
 
 
 
-                /* ====================================
-                   สร้างกล่องรูป
-                ==================================== */
+                /* =================================
+                   สร้างกล่อง
+                ================================= */
 
                 function createBox(
                     imgSrc,
                     globalIndex
                 ) {
 
+
                     const box =
-                        document.createElement("div");
+                        document.createElement(
+                            "div"
+                        );
 
 
                     box.className =
                         "image-box";
 
 
-                    /*
-                     ถ้ามีรูป
-                    */
-
                     if (imgSrc) {
 
 
-                        /* รูป */
+                        /*
+                         รูป
+                        */
 
                         const img =
-                            document.createElement("img");
+                            document.createElement(
+                                "img"
+                            );
 
 
                         img.src =
@@ -657,17 +1038,29 @@
 
 
                         img.alt =
-                            `ใบปะหน้า ${globalIndex + 1}`;
+                            `ใบปะหน้า ${
+                                globalIndex + 1
+                            }`;
 
 
-                        box.appendChild(img);
+                        box.appendChild(
+                            img
+                        );
 
 
 
-                        /* ปุ่มลบ */
+                        /*
+                         ปุ่มลบ
+                        */
 
                         const deleteBtn =
-                            document.createElement("button");
+                            document.createElement(
+                                "button"
+                            );
+
+
+                        deleteBtn.type =
+                            "button";
 
 
                         deleteBtn.className =
@@ -680,10 +1073,6 @@
 
                         deleteBtn.title =
                             "ลบรูปนี้";
-
-
-                        deleteBtn.type =
-                            "button";
 
 
                         deleteBtn.onclick =
@@ -704,9 +1093,9 @@
 
                     else {
 
+
                         /*
                          ช่องว่าง
-                         กรณีรูปไม่ครบ 4
                         */
 
                         box.classList.add(
@@ -722,57 +1111,58 @@
 
 
 
-                /* ====================================
-                   เพิ่ม 4 รูป
-                ==================================== */
+                /* =================================
+                   4 รูป
+                ================================= */
 
                 pageDiv.appendChild(
-
                     createBox(
                         allImages[i],
                         i
                     )
-
                 );
 
 
                 pageDiv.appendChild(
-
                     createBox(
                         allImages[i + 1],
                         i + 1
                     )
-
                 );
 
 
                 pageDiv.appendChild(
-
                     createBox(
                         allImages[i + 2],
                         i + 2
                     )
-
                 );
 
 
                 pageDiv.appendChild(
-
                     createBox(
                         allImages[i + 3],
                         i + 3
                     )
-
                 );
 
 
 
                 /*
-                 เพิ่มหน้าเข้า printArea
+                 A4 ใส่ใน Wrapper
+                */
+
+                wrapper.appendChild(
+                    pageDiv
+                );
+
+
+                /*
+                 เพิ่มเข้า Print Area
                 */
 
                 printArea.appendChild(
-                    pageDiv
+                    wrapper
                 );
 
             }
@@ -782,5 +1172,6 @@
     </script>
 
 </body>
+
 </html>
 
