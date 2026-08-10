@@ -23,9 +23,7 @@
 
     <!-- jsPDF -->
 
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 
     <style>
@@ -39,7 +37,6 @@
         body {
 
             margin: 0;
-
             padding: 0;
 
             width: 100%;
@@ -55,17 +52,7 @@
 
 
         /* =========================================
-           CONTROL
-        ========================================= */
-
-        #controlPanel {
-
-            width: 100%;
-        }
-
-
-        /* =========================================
-           PREVIEW AREA
+           PRINT AREA
         ========================================= */
 
         #printArea {
@@ -264,139 +251,7 @@
 
 
         /* =========================================
-           PDF PREVIEW
-        ========================================= */
-
-        #pdfPreviewPage {
-
-            display: none;
-
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 9999;
-
-            background: #f3f4f6;
-
-            flex-direction: column;
-        }
-
-
-        /* =========================================
-           PDF HEADER
-        ========================================= */
-
-        .pdf-header {
-
-            flex-shrink: 0;
-
-            background: white;
-
-            border-bottom: 1px solid #e5e7eb;
-
-            padding: 12px 16px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
-            box-shadow:
-                0 1px 4px
-                rgba(0, 0, 0, 0.08);
-        }
-
-
-        .pdf-title {
-
-            font-size: 18px;
-
-            font-weight: 700;
-
-            color: #1f2937;
-
-            white-space: nowrap;
-        }
-
-
-        .pdf-buttons {
-
-            display: flex;
-
-            gap: 8px;
-        }
-
-
-        .pdf-btn {
-
-            border: none;
-
-            border-radius: 8px;
-
-            padding: 9px 14px;
-
-            font-size: 14px;
-
-            font-weight: 600;
-
-            cursor: pointer;
-
-            white-space: nowrap;
-        }
-
-
-        .pdf-print {
-
-            background: #2563eb;
-
-            color: white;
-        }
-
-
-        .pdf-download {
-
-            background: #16a34a;
-
-            color: white;
-        }
-
-
-        .pdf-back {
-
-            background: #6b7280;
-
-            color: white;
-        }
-
-
-        .pdf-btn:active {
-
-            transform: scale(0.97);
-        }
-
-
-        /* =========================================
-           PDF IFRAME
-        ========================================= */
-
-        #pdfFrame {
-
-            width: 100%;
-
-            flex: 1;
-
-            border: none;
-
-            background: #525252;
-        }
-
-
-        /* =========================================
-           MOBILE
+           DESKTOP PREVIEW
         ========================================= */
 
         @media screen and (max-width: 900px) {
@@ -414,6 +269,10 @@
 
         }
 
+
+        /* =========================================
+           MOBILE
+        ========================================= */
 
         @media screen and (max-width: 600px) {
 
@@ -456,46 +315,8 @@
                 font-size: 14px;
             }
 
-
-            .pdf-header {
-
-                padding: 8px;
-
-                flex-direction: column;
-
-                align-items: stretch;
-            }
-
-
-            .pdf-title {
-
-                text-align: center;
-
-                font-size: 16px;
-            }
-
-
-            .pdf-buttons {
-
-                width: 100%;
-
-                display: grid;
-
-                grid-template-columns:
-                    1fr 1fr 1fr;
-
-                gap: 5px;
-            }
-
-
-            .pdf-btn {
-
-                padding: 9px 5px;
-
-                font-size: 12px;
-            }
-
         }
+
 
     </style>
 
@@ -505,13 +326,11 @@
 <body>
 
 
-    <!-- =====================================================
-         CONTROL PANEL
-    ====================================================== -->
+    <!-- =========================================
+         CONTROL
+    ========================================== -->
 
     <div
-        id="controlPanel"
-
         class="
             max-w-xl
             mx-auto
@@ -575,11 +394,8 @@
 
             <input
                 type="file"
-
                 id="imageInput"
-
                 accept="image/*"
-
                 multiple
 
                 class="
@@ -614,12 +430,11 @@
         <div class="flex gap-2">
 
 
+            <!-- PDF -->
+
             <button
                 type="button"
-
                 onclick="createPDF()"
-
-                id="createPdfBtn"
 
                 class="
                     flex-1
@@ -634,14 +449,15 @@
                 "
             >
 
-                📄 สร้าง PDF
+                📄 สร้าง PDF / พิมพ์
 
             </button>
 
 
+            <!-- CLEAR -->
+
             <button
                 type="button"
-
                 onclick="clearAll()"
 
                 class="
@@ -688,9 +504,9 @@
 
 
 
-    <!-- =====================================================
-         IMAGE PREVIEW
-    ====================================================== -->
+    <!-- =========================================
+         PREVIEW
+    ========================================== -->
 
     <div id="printArea">
 
@@ -718,99 +534,6 @@
 
 
 
-    <!-- =====================================================
-         PDF PREVIEW PAGE
-    ====================================================== -->
-
-    <div id="pdfPreviewPage">
-
-
-        <!-- HEADER -->
-
-        <div class="pdf-header">
-
-
-            <div class="pdf-title">
-
-                📄 ตัวอย่าง PDF
-
-            </div>
-
-
-            <div class="pdf-buttons">
-
-
-                <!-- PRINT -->
-
-                <button
-                    type="button"
-
-                    class="
-                        pdf-btn
-                        pdf-print
-                    "
-
-                    onclick="printPDF()"
-                >
-
-                    🖨️ พิมพ์
-
-                </button>
-
-
-                <!-- DOWNLOAD -->
-
-                <button
-                    type="button"
-
-                    class="
-                        pdf-btn
-                        pdf-download
-                    "
-
-                    onclick="downloadPDF()"
-                >
-
-                    📥 ดาวน์โหลด
-
-                </button>
-
-
-                <!-- BACK -->
-
-                <button
-                    type="button"
-
-                    class="
-                        pdf-btn
-                        pdf-back
-                    "
-
-                    onclick="closePDFPreview()"
-                >
-
-                    ↩️ กลับ
-
-                </button>
-
-
-            </div>
-
-        </div>
-
-
-        <!-- PDF -->
-
-        <iframe
-            id="pdfFrame"
-            title="PDF Preview"
-        ></iframe>
-
-
-    </div>
-
-
-
     <script>
 
 
@@ -819,16 +542,6 @@
         ======================================== */
 
         let allImages = [];
-
-
-        let currentPDFBlob = null;
-
-
-        let currentPDFUrl = null;
-
-
-        let currentFileName =
-            "ใบปะหน้า.pdf";
 
 
         const imageInput =
@@ -849,21 +562,9 @@
             );
 
 
-        const pdfPreviewPage =
-            document.getElementById(
-                "pdfPreviewPage"
-            );
-
-
-        const pdfFrame =
-            document.getElementById(
-                "pdfFrame"
-            );
-
-
 
         /* ========================================
-           SELECT IMAGES
+           FILE SELECT
         ======================================== */
 
         imageInput.addEventListener(
@@ -940,15 +641,27 @@
                     .then(images => {
 
 
+                        /*
+                         เพิ่มรูป
+                        */
+
                         allImages =
                             allImages.concat(
                                 images
                             );
 
 
+                        /*
+                         reset input
+                        */
+
                         imageInput.value =
                             "";
 
+
+                        /*
+                         render
+                        */
 
                         renderPages();
 
@@ -1009,11 +722,13 @@
             }
 
 
-            if (
-                !confirm(
+            const confirmDelete =
+                confirm(
                     "ต้องการลบรูปภาพทั้งหมดหรือไม่?"
-                )
-            ) {
+                );
+
+
+            if (!confirmDelete) {
 
                 return;
 
@@ -1030,7 +745,7 @@
 
 
         /* ========================================
-           RENDER PAGES
+           RENDER
         ======================================== */
 
         function renderPages() {
@@ -1043,6 +758,8 @@
             imageCount.innerText =
                 `รูปทั้งหมด ${allImages.length} รูป`;
 
+
+            /* ไม่มีรูป */
 
             if (
                 allImages.length === 0
@@ -1077,7 +794,7 @@
 
 
             /* ====================================
-               4 รูปต่อหน้า
+               แบ่งทีละ 4
             ==================================== */
 
             for (
@@ -1086,6 +803,10 @@
                 i += 4
             ) {
 
+
+                /*
+                 Wrapper
+                */
 
                 const wrapper =
                     document.createElement(
@@ -1096,6 +817,11 @@
                 wrapper.className =
                     "page-wrapper";
 
+
+
+                /*
+                 A4
+                */
 
                 const pageDiv =
                     document.createElement(
@@ -1131,6 +857,10 @@
                     if (imgSrc) {
 
 
+                        /*
+                         IMAGE
+                        */
+
                         const img =
                             document.createElement(
                                 "img"
@@ -1152,6 +882,10 @@
                         );
 
 
+
+                        /*
+                         DELETE
+                        */
 
                         const deleteBtn =
                             document.createElement(
@@ -1193,6 +927,7 @@
 
                     else {
 
+
                         box.classList.add(
                             "empty-box"
                         );
@@ -1207,7 +942,7 @@
 
 
                 /* =================================
-                   4 รูป
+                   4 BOXES
                 ================================= */
 
                 pageDiv.appendChild(
@@ -1242,10 +977,19 @@
                 );
 
 
+
+                /*
+                 wrapper
+                */
+
                 wrapper.appendChild(
                     pageDiv
                 );
 
+
+                /*
+                 print area
+                */
 
                 printArea.appendChild(
                     wrapper
@@ -1264,6 +1008,10 @@
         async function createPDF() {
 
 
+            /*
+             ตรวจสอบรูป
+            */
+
             if (
                 allImages.length === 0
             ) {
@@ -1277,13 +1025,17 @@
             }
 
 
+            /*
+             ตรวจสอบ jsPDF
+            */
+
             if (
                 !window.jspdf ||
                 !window.jspdf.jsPDF
             ) {
 
                 alert(
-                    "ไม่สามารถโหลดระบบ PDF ได้"
+                    "ไม่สามารถโหลดระบบสร้าง PDF ได้"
                 );
 
                 return;
@@ -1291,9 +1043,13 @@
             }
 
 
+            /*
+             ปุ่ม
+            */
+
             const button =
-                document.getElementById(
-                    "createPdfBtn"
+                document.querySelector(
+                    'button[onclick="createPDF()"]'
                 );
 
 
@@ -1317,27 +1073,46 @@
                 } = window.jspdf;
 
 
-                /* =================================
-                   A4
-                ================================= */
+                /*
+                 A4 portrait
+
+                 หน่วยเป็น mm
+                */
 
                 const pdf =
                     new jsPDF({
 
-                        orientation:
-                            "portrait",
+                        orientation: "portrait",
 
-                        unit:
-                            "mm",
+                        unit: "mm",
 
-                        format:
-                            "a4",
+                        format: "a4",
 
-                        compress:
-                            true
+                        compress: true
 
                     });
 
+
+
+                /*
+                 A4
+
+                 210 × 297 mm
+                */
+
+                const pageWidth =
+                    210;
+
+
+                const pageHeight =
+                    297;
+
+
+                /*
+                 แต่ละช่อง
+
+                 105 × 148.5 mm
+                */
 
                 const boxWidth =
                     105;
@@ -1348,39 +1123,9 @@
 
 
 
-                /* =================================
-                   ตำแหน่ง 4 ช่อง
-                ================================= */
-
-                const positions = [
-
-                    {
-                        x: 0,
-                        y: 0
-                    },
-
-                    {
-                        x: 105,
-                        y: 0
-                    },
-
-                    {
-                        x: 0,
-                        y: 148.5
-                    },
-
-                    {
-                        x: 105,
-                        y: 148.5
-                    }
-
-                ];
-
-
-
-                /* =================================
-                   เพิ่มรูป
-                ================================= */
+                /*
+                 วนทีละ 4 รูป
+                */
 
                 for (
                     let i = 0;
@@ -1389,9 +1134,11 @@
                 ) {
 
 
-                    if (
-                        i > 0
-                    ) {
+                    /*
+                     หน้าแรกไม่ต้อง addPage
+                    */
+
+                    if (i > 0) {
 
                         pdf.addPage(
                             "a4",
@@ -1400,6 +1147,40 @@
 
                     }
 
+
+                    /*
+                     4 ตำแหน่ง
+                    */
+
+                    const positions = [
+
+                        {
+                            x: 0,
+                            y: 0
+                        },
+
+                        {
+                            x: 105,
+                            y: 0
+                        },
+
+                        {
+                            x: 0,
+                            y: 148.5
+                        },
+
+                        {
+                            x: 105,
+                            y: 148.5
+                        }
+
+                    ];
+
+
+
+                    /*
+                     เพิ่มรูป
+                    */
 
                     for (
                         let j = 0;
@@ -1411,6 +1192,11 @@
                         const index =
                             i + j;
 
+
+                        /*
+                         ไม่มีรูป
+                         ข้าม
+                        */
 
                         if (
                             index >=
@@ -1426,11 +1212,29 @@
                             allImages[index];
 
 
+                        /*
+                         โหลดรูป
+                        */
+
                         const img =
                             await loadImage(
                                 imgSrc
                             );
 
+
+                        /*
+                         ตำแหน่ง
+                        */
+
+                        const pos =
+                            positions[j];
+
+
+                        /*
+                         คำนวณขนาด
+                         ให้รูปอยู่ในช่อง
+                         โดยไม่ตัดรูป
+                        */
 
                         const imgWidth =
                             img.naturalWidth;
@@ -1439,10 +1243,6 @@
                         const imgHeight =
                             img.naturalHeight;
 
-
-                        /*
-                         Fit inside box
-                        */
 
                         const ratio =
                             Math.min(
@@ -1456,19 +1256,19 @@
                             );
 
 
-                        const drawWidth =
+                        let drawWidth =
                             imgWidth *
                             ratio;
 
 
-                        const drawHeight =
+                        let drawHeight =
                             imgHeight *
                             ratio;
 
 
-                        const pos =
-                            positions[j];
-
+                        /*
+                         จัดกึ่งกลาง
+                        */
 
                         const x =
                             pos.x +
@@ -1485,6 +1285,11 @@
                                 drawHeight
                             ) / 2;
 
+
+
+                        /*
+                         เพิ่มรูปลง PDF
+                        */
 
                         pdf.addImage(
 
@@ -1514,66 +1319,72 @@
 
 
 
-                /* =================================
-                   ชื่อไฟล์
-                ================================= */
+                /*
+                 สร้างชื่อไฟล์
+                */
 
-                currentFileName =
+                const fileName =
                     "ใบปะหน้า_" +
                     getDateString() +
                     ".pdf";
 
 
 
-                /* =================================
-                   PDF Blob
-                ================================= */
+                /*
+                 Blob
+                */
 
-                currentPDFBlob =
+                const pdfBlob =
                     pdf.output(
                         "blob"
                     );
 
 
-                /* =================================
-                   URL
-                ================================= */
+                /*
+                 ตรวจสอบ iPhone
+                */
 
-                if (
-                    currentPDFUrl
-                ) {
+                const isIOS =
+                    /iPad|iPhone|iPod/.test(
+                        navigator.userAgent
+                    ) &&
+                    !window.MSStream;
 
-                    URL.revokeObjectURL(
-                        currentPDFUrl
-                    );
+
+
+                if (isIOS) {
+
+
+                    /*
+                     เปิด PDF ใน Safari
+                    */
+
+                    const blobUrl =
+                        URL.createObjectURL(
+                            pdfBlob
+                        );
+
+
+                    window.location.href =
+                        blobUrl;
+
 
                 }
 
+                else {
 
-                currentPDFUrl =
-                    URL.createObjectURL(
-                        currentPDFBlob
+
+                    /*
+                     Desktop
+
+                     ดาวน์โหลด PDF
+                    */
+
+                    pdf.save(
+                        fileName
                     );
 
-
-                /* =================================
-                   เปิดหน้า PDF Preview
-                ================================= */
-
-                pdfFrame.src =
-                    currentPDFUrl;
-
-
-                pdfPreviewPage.style.display =
-                    "flex";
-
-
-                /*
-                 ล็อก scroll หน้าเดิม
-                */
-
-                document.body.style.overflow =
-                    "hidden";
+                }
 
 
             }
@@ -1590,6 +1401,7 @@
                     "ไม่สามารถสร้าง PDF ได้"
                 );
 
+
             }
 
             finally {
@@ -1603,136 +1415,6 @@
                     originalText;
 
             }
-
-        }
-
-
-
-        /* ========================================
-           PRINT PDF
-        ======================================== */
-
-        function printPDF() {
-
-
-            if (
-                !currentPDFUrl
-            ) {
-
-                alert(
-                    "ยังไม่มี PDF"
-                );
-
-                return;
-
-            }
-
-
-            /*
-             เปิด PDF แยกหน้า
-             เพื่อให้ Safari / Chrome
-             สามารถสั่งพิมพ์ได้
-            */
-
-            const printWindow =
-                window.open(
-                    currentPDFUrl,
-                    "_blank"
-                );
-
-
-            /*
-             บาง Browser block popup
-            */
-
-            if (!printWindow) {
-
-
-                /*
-                 เปิด PDF ใน tab เดิม
-                */
-
-                window.location.href =
-                    currentPDFUrl;
-
-                return;
-
-            }
-
-
-        }
-
-
-
-        /* ========================================
-           DOWNLOAD PDF
-        ======================================== */
-
-        function downloadPDF() {
-
-
-            if (
-                !currentPDFBlob
-            ) {
-
-                alert(
-                    "ยังไม่มี PDF"
-                );
-
-                return;
-
-            }
-
-
-            const link =
-                document.createElement(
-                    "a"
-                );
-
-
-            link.href =
-                currentPDFUrl;
-
-
-            link.download =
-                currentFileName;
-
-
-            document.body.appendChild(
-                link
-            );
-
-
-            link.click();
-
-
-            document.body.removeChild(
-                link
-            );
-
-        }
-
-
-
-        /* ========================================
-           CLOSE PDF PREVIEW
-        ======================================== */
-
-        function closePDFPreview() {
-
-
-            pdfPreviewPage.style.display =
-                "none";
-
-
-            document.body.style.overflow =
-                "";
-
-
-            /*
-             ไม่ revoke URL ตรงนี้
-             เพราะอาจกลับมาเปิดดูใหม่
-            */
 
         }
 
@@ -1822,7 +1504,9 @@
 
 
         /* ========================================
-           DATE FOR FILE NAME ONLY
+           DATE
+           ใช้แค่ตั้งชื่อไฟล์
+           ไม่ได้ใส่ลง PDF
         ======================================== */
 
         function getDateString() {
@@ -1862,8 +1546,8 @@
 
         }
 
-    </script>
 
+    </script>
 
 </body>
 
